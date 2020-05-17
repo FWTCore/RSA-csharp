@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>使用jsencrypt执行OpenSSL的RSA加密，解密</title>
+</head>
+<!--引入jsencrypt.js-->
+<script src="https://cdn.bootcss.com/jsencrypt/3.0.0-beta.1/jsencrypt.js"></script>
+<script type="text/javascript">
+//公钥
+var PUBLIC_KEY = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCuU4sSuCsylSM1mznxxxPs1/VqDhpzLGG9Q4gACYDkh+j9SwACoVUPz9TX7hcxYnGxTW+ejxC19LQCdPBwIAgx4jRLEMTlWs6QFJDMCzKXDkt4/uqNyDmLaIgzP8GaS2UlpwsAAf1QZKcH32Jia0vIm997CKg+W3jc2sQ8Bi26gQIDAQAB';
+//私钥
+var PRIVATE_KEY = 'MIICXAIBAAKBgQCuU4sSuCsylSM1mznxxxPs1/VqDhpzLGG9Q4gACYDkh+j9SwACoVUPz9TX7hcxYnGxTW+ejxC19LQCdPBwIAgx4jRLEMTlWs6QFJDMCzKXDkt4/uqNyDmLaIgzP8GaS2UlpwsAAf1QZKcH32Jia0vIm997CKg+W3jc2sQ8Bi26gQIDAQABAoGAe8a714XGvjqgbl6SDPbCUgegrDXpV9+qYl0Bwqz8xMcvijFnh3aP1BNIWC0ocJsqiK6n01hXkCp4acooMiS8S6r+Lt+eSJHVVkgKQ3MvIPeIQRmslbZAUH2nMTsO7xE0nhlCyt6FmtJ/Czeb0BdVfbbqRnN8J3V3lc92lGby01UCQQDP6uKSAlaLTpcu2d2ZhCF/BwYRMteiZbQ3gzzVvBnwdCXtHBSwCAJ2CNhyO4ZbgAP8SeqfVoKcV1E8ljfmGN9HAkEA1qP/BDr3sKGzfoJsNIvCttJd73PLMRmRUq3bv0QRpfpLdGlqDksCjOVgOfGlQVbKPPcD4hQpRaF7B9r6RlfL9wJALuVt4T0BxD4fv4OIhh3VaE9vQOXU2V5TPcouKI9a0m+ANnEFAYds9q6cE3f1oCHJxFfvwazDnPvc6OuBBDdL9QJACzbGPBJYnoHUPufRf21N3v9eqQQDuaz8SrWKpZOI2IMbLhnT0KtalsHlJSHa4G8IYecF7OngviKRqvdl3Ab6QQJBALH3Csyl3pR1O25n8pqdZZKnXiPc6hmu+ULoJiewylkN1X55afZu3t92J69YzzlBrL1q1IyJk8ibfrtzdH7EUXI=';
+//使用公钥加密
+var encrypt = new JSEncrypt();
+//encrypt.setPrivateKey('-----BEGIN RSA PRIVATE KEY-----'+PRIVATE_KEY+'-----END RSA PRIVATE KEY-----');
+encrypt.setPublicKey('-----BEGIN PUBLIC KEY-----' + PUBLIC_KEY + '-----END PUBLIC KEY-----');
+var str = {
+"uid":"1223334",
+"pwd":"asd"
+}
+var encrypted = encrypt.encrypt(JSON.stringify(str));
+console.log('加密前数据:%o', str);
+console.log('加密后数据:%o', encrypted);
+//使用私钥解密
+var decrypt = new JSEncrypt();
+//decrypt.setPublicKey('-----BEGIN PUBLIC KEY-----' + PUBLIC_KEY + '-----END PUBLIC KEY-----');
+decrypt.setPrivateKey('-----BEGIN RSA PRIVATE KEY-----'+PRIVATE_KEY+'-----END RSA PRIVATE KEY-----');
+var uncrypted = decrypt.decrypt(encrypted);
+console.log('解密后数据:%o', uncrypted);
+</script>
+
+</html>
